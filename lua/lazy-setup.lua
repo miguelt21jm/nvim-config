@@ -27,4 +27,6 @@ require("lazy").setup({
     { import = "plugins.noice" },
     { import = "plugins.copilot" },
     { import = "plugins.conform" },
+    { import = "plugins.remote-nvim" },
+    { import = "plugins.rustaceanvim" },
 })
