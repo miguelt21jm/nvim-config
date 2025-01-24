@@ -40,6 +40,21 @@ local ts_settings = {
     },
 }
 
+-- LSP settings for pyright
+local pyright_settings = {
+    on_attach = keybings_on_buffer,
+    settings = {
+        python = {
+            analysis = {
+                typeCheckingMode = "strict",
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = true,
+            },
+        },
+    },
+}
+
 
 -- -- LSP settings for rust_analyzer
 -- local rust_analyzer_settings = {
@@ -70,6 +85,7 @@ return {
     config = function()
         require("lspconfig").lua_ls.setup(lua_ls_settings)
         require("lspconfig").tsserver.setup(ts_settings)
+        require("lspconfig").pyright.setup(pyright_settings)
         -- require("lspconfig").rust_analyzer.setup(rust_analyzer_settings)
     end,
 }
