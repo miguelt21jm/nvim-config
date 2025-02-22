@@ -28,5 +28,5 @@ require("lazy").setup({
     { import = "plugins.copilot" },
     { import = "plugins.conform" },
     { import = "plugins.remote-nvim" },
-    { import = "plugins.rustaceanvim" },
+    { import = "plugins.obsidian" },
 })
