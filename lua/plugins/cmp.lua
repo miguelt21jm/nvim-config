@@ -1,61 +1,43 @@
+-- This is for autocompletion
 return {
-	"hrsh7th/nvim-cmp",
-	dependencies = {
-		"hrsh7th/cmp-buffer",      -- Buffer completions
-		"hrsh7th/cmp-path",        -- File path completions
-		"hrsh7th/cmp-nvim-lsp",    -- LSP completions
-		"hrsh7th/cmp-cmdline",     -- Command line completions
-		"hrsh7th/cmp-git",         -- Git completions
-		"L3MON4D3/LuaSnip",        -- Snippet engine
-		"saadparwaiz1/cmp_luasnip",-- Snippet completions
-		"windwp/nvim-autopairs",   -- Auto-close brackets, pairs, etc.
-	},
-	event = "VeryLazy",
-	config = function()
-		local cmp = require("cmp")
-		local luasnip = require("luasnip")
-		--
-		-- Load friendly snippets
-		require("luasnip.loaders.from_vscode").lazy_load()
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
+    "hrsh7th/cmp-buffer",    -- Buffer completions
+    "hrsh7th/cmp-path",      -- Path completions
+    "L3MON4D3/LuaSnip",      -- Snippet engine
+    "saadparwaiz1/cmp_luasnip", -- Snippet completions for LuaSnip
+  },
+  config = function()
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
 
-		-- Configure nvim-cmp
-		cmp.setup({
-			snippet = {
-				expand = function(args)
-					luasnip.lsp_expand(args.body) -- Use LuaSnip for snippet expansion
-				end,
-			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-Space>"] = cmp.mapping.complete(), -- Trigger completion menu
-				["<C-e>"] = cmp.mapping.abort(),        -- Close completion menu
-				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm selection
-			}),
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },  -- LSP completions
-				{ name = "luasnip" },   -- Snippets
-				{ name = "buffer" },    -- Buffer completions
-				{ name = "path" },      -- Path completions
-			}),
-		})
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      }),
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+      }, {
+        { name = "buffer" },
+        { name = "path" },
+      })
+    })
 
-		-- Configure command line completion
-		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = {
-				{ name = "cmdline" },
-			},
-		})
-
-		-- Configure git completions (requires git plugin)
-		cmp.setup.filetype("gitcommit", {
-			sources = cmp.config.sources({
-				{ name = "git" },
-				{ name = "buffer" },
-			}),
-		})
-
-		-- Configure autopairs integration
-		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-	end,
+    -- Optional: Update LSP capabilities for better integration with nvim-cmp.
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    -- You can pass these capabilities to your lspconfig setups like:
+    -- require('lspconfig').rust_analyzer.setup({ capabilities = capabilities })
+    -- require('lspconfig').lua_ls.setup({ capabilities = capabilities, settings = { ... } })
+  end,
 }

@@ -1,5 +1,3 @@
--- lua/plugins/treesitter/init.lua
-
 -- Parsers to install
 local parsers = {
   "lua",

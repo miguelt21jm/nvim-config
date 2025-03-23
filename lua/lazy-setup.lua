@@ -18,13 +18,16 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     { import = "plugins.treesitter" },
     { import = "plugins.telescope" },
-    { import = "plugins.theme" },
-    { import = "plugins.cmp" },
+    { import = "plugins.nvim-tree" },
+    { import = "plugins.copilot" },
     { import = "plugins.mason" },
     { import = "plugins.lsp" },
-    { import = "plugins.lspsaga" },
-    { import = "plugins.nvim-tree" },
-    { import = "plugins.noice" },
-    { import = "plugins.copilot" },
-    { import = "plugins.conform" },
+    { import = "plugins.cmp" },
+    { import = "plugins.theme" },
+    { import = "plugins.vim-illuminate" },
+    { import = "plugins.fidget" },
+    { import = "plugins.autopairs" },
+    { import = "plugins.omni-extended" },
+    -- { import = "plugins.cybu" },
 })
+

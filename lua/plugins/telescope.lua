@@ -1,4 +1,5 @@
 -- lua/plugins/telescope/init.lua
+local actions = require("telescope.actions")
 
 -- Telescope defaults
 local defaults = {
@@ -14,36 +15,55 @@ local defaults = {
     prompt_prefix = "🔍 ", -- Custom prompt symbol
     selection_caret = " ", -- Custom selection symbol
     path_display = { "truncate" }, -- Shorten long file paths
+    mappings = {
+      i = {
+        -- Use Ctrl+Tab to move selection forward
+        ["<C-Tab>"] = function(prompt_bufnr)
+          actions.move_selection_next(prompt_bufnr)
+          return true
+        end,
+        -- Use Ctrl+Shift+Tab to move selection backward
+        ["<C-S-Tab>"] = function(prompt_bufnr)
+          actions.move_selection_previous(prompt_bufnr)
+          return true
+        end,
+      },
+    },
 }
 
 -- Telescope pickers
 local pickers = {
-  find_files = {
-    theme = "dropdown",
-    find_command = { -- Custom Ripgrep command for `find_files`
-      "rg",
-      "--files", -- List files only
-      "--hidden", -- Include hidden files
-      "--glob", "!target/**", -- Exclude the `target` directory
-      "--glob", "!.git/**", -- Exclude the `.git` directory
-      "--glob", "!Cargo.toml", -- Exclude Cargo.toml
-      "--glob", "!Cargo.lock", -- Exclude Cargo.lock
+    find_files = {
+        theme = "dropdown",
+        find_command = {       -- Custom Ripgrep command for `find_files`
+            "rg",
+            "--files",         -- List files only
+            "--hidden",        -- Include hidden files
+            "--glob", "!target/**", -- Exclude the `target` directory
+            "--glob", "!.git/**", -- Exclude the `.git` directory
+            "--glob", "!Cargo.toml", -- Exclude Cargo.toml
+            "--glob", "!Cargo.lock", -- Exclude Cargo.lock
+        },
     },
-  },
 }
 
 -- Telescope key mappings
 local keymaps = {
-    { key = "<leader>ff", cmd = "find_files", desc = "Find files" },
-    { key = "<leader>fg", cmd = "live_grep",  desc = "Live grep" },
-    { key = "<leader>fb", cmd = "buffers",    desc = "List buffers" },
-    { key = "<leader>fh", cmd = "help_tags",  desc = "Help tags" },
-    { key = "<leader>fs", cmd = "lsp_document_symbols",  desc = "Document symbols" },
+    { key = "<leader>ff", cmd = "find_files",           desc = "Find files" },
+    { key = "<leader>fg", cmd = "live_grep",            desc = "Live grep" },
+
+    -- Custom buffer search
+    { key = "<leader>fb", cmd = "buffers",              desc = "List buffers" },
+    { key = "<C-Tab>", cmd = "buffers",              desc = "List buffers" },
+    { key = "<C-S-Tab>", cmd = "buffers",              desc = "List buffers" },
+
+    { key = "<leader>fh", cmd = "help_tags",            desc = "Help tags" },
+    { key = "<leader>fs", cmd = "lsp_document_symbols", desc = "Document symbols" },
 }
 
 -- Return plugin configuration
 return {
-    "nvim-telescope/telescope.nvim",          -- Telescope plugin
+    "nvim-telescope/telescope.nvim", -- Telescope plugin
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
         local telescope = require("telescope")

@@ -1,61 +1,62 @@
--- Define a function for setting up LSP keybindings
-local keybings_on_buffer = function(_, bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-
-    -- Keybindings for LSP functionality
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts) -- Hover documentation
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- Go to definition
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- Go to declaration
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts) -- Go to implementation
-    vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts) -- Find references (with Lspsaga)
-    vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- Code actions (with Lspsaga)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- Rename symbol
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- Go to previous diagnostic
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- Go to next diagnostic
-    vim.keymap.set("n", "<leader>f", function()
-        vim.lsp.buf.format({ async = true })
-    end, opts) -- Format code
-end
-
--- LSP settings for lua_ls
-local lua_ls_settings = {
-    on_attach = keybings_on_buffer,
-    settings = {
-        Lua = {
-            telemetry = { enable = false },
-            workspace = { checkThirdParty = false },
-        },
-    },
-}
-
--- LSP settings for rust_analyzer
-local rust_analyzer_settings = {
-    on_attach = keybings_on_buffer,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "by_self",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true,
-            },
-            procMacro = {
-                enable = true,
-            },
-        },
-    },
-}
-
-
--- Return the plugin configuration for Lazy.nvim
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "williamboman/mason.nvim",
+        "Hoffs/omnisharp-extended-lsp.nvim"
     },
     config = function()
-        require("lspconfig").lua_ls.setup(lua_ls_settings)
-        require("lspconfig").rust_analyzer.setup(rust_analyzer_settings)
-    end,
-}
+        local lspconfig = require("lspconfig")
+
+        local on_attach = function(_, bufnr)
+            local opts = { noremap = true, silent = true, buffer = bufnr }
+            local keymap = vim.keymap.set
+
+            keymap("n", "gd", vim.lsp.buf.definition, opts)
+            keymap("n", "gD", vim.lsp.buf.declaration, opts)
+            keymap("n", "gi", vim.lsp.buf.implementation, opts)
+            keymap("n", "gr", vim.lsp.buf.references, opts)
+            keymap("n", "K", vim.lsp.buf.hover, opts)
+            keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
+            keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+            keymap("n", "<leader>f", function()
+                vim.lsp.buf.format { async = true }
+            end, opts)
+        end
+
+        -- local omni_on_attach = function(_, bufnr)
+            --     local opts = { noremap = true, silent = true, buffer = bufnr }
+            --     local keymap = vim.keymap.set
+            --     local omni_ext = require("omnisharp_extended")
+            --
+            --     vim.keymap.set("n", "gd", require("omnisharp_extended").telescope_lsp_definition, { noremap = true })
+            --     keymap("n", "gD", vim.lsp.buf.declaration, opts)
+            --     keymap("n", "gi", function() omni_ext.lsp_implementation() end, opts)
+            --     keymap("n", "gr", function() omni_ext.lsp_references() end, opts)
+            --     keymap("n", "K", vim.lsp.buf.hover, opts)
+            --     keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
+            --     keymap("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+            --
+            --     keymap("n", "<leader>f", function()
+                --         vim.lsp.buf.format { async = true }
+                --     end, opts)
+                -- end
+
+                lspconfig.rust_analyzer.setup({
+                    on_attach = on_attach,
+                })
+
+                lspconfig.lua_ls.setup({
+                    on_attach = on_attach,
+                })
+
+                lspconfig.omnisharp.setup({
+                    handlers = { ['textDocument/definition'] = require('omnisharp_extended').handler },
+                    on_attach = on_attach,
+                    cmd = {
+                        "C:\\Users\\MiguelJoseTamaraJaim\\AppData\\Local\\nvim-data\\mason\\bin\\omnisharp.cmd",
+                        "--languageserver",
+                        "--hostPID", tostring(vim.fn.getpid())
+                    },
+                    root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", ".git"),
+                })
+            end,
+        }

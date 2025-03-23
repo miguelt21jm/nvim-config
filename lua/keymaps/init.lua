@@ -12,3 +12,6 @@ end
 map("i", "kj", "<Esc>", { desc = "Exit insert mode" })
 map("n", "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 map("v", "<leader>y", '"+y', { desc = "Copy selection to system clipboard" })
+map("n", "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+map("v", "<leader>p", '"+p', { desc = "Paste from system clipboard into selection" })
+
