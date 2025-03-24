@@ -28,6 +28,6 @@ require("lazy").setup({
     { import = "plugins.fidget" },
     { import = "plugins.autopairs" },
     { import = "plugins.omni-extended" },
-    -- { import = "plugins.cybu" },
+    { import = "plugins.conform" },
 })
 
