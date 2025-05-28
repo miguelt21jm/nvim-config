@@ -1,5 +1,4 @@
 -- lua/lazy-setup.lua
-
 -- Install lazy.nvim if not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -8,16 +7,14 @@ if not vim.loop.fs_stat(lazypath) then
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
+        "--branch=stable", lazypath,
     })
 end
-
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    require("plugins.telescope"),
     { import = "plugins.treesitter" },
-    { import = "plugins.telescope" },
     { import = "plugins.nvim-tree" },
     { import = "plugins.copilot" },
     { import = "plugins.mason" },
@@ -31,9 +28,10 @@ require("lazy").setup({
     { import = "plugins.conform" },
     { import = "plugins.inlay-hints" },
     { import = "plugins.trouble" },
-    { import = "plugins.lsp-saga" },
-    { import = "plugins.noice" },
     { import = "plugins.tiny-code-actions" },
-    { import = "plugins.mini-map" },
     { import = "plugins.obsidian" },
+    { import = "plugins.lightline" },
+    -- { import = "plugins.lsp-saga" },
+    -- { import = "plugins.noice" },
+    -- { import = "plugins.mini-map" },
 })
