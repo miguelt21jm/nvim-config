@@ -1,10 +1,12 @@
 return {
 	"Wansmer/symbol-usage.nvim",
-	event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+	event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
 	config = function()
 		local function text_format(symbol)
 			local fragments = {}
-            local function h(name) return vim.api.nvim_get_hl(0, { name = name }) end
+			local function h(name)
+				return vim.api.nvim_get_hl(0, { name = name })
+			end
 
 			vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, italic = true })
 			vim.api.nvim_set_hl(

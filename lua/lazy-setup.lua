@@ -32,6 +32,7 @@ require("lazy").setup({
     { import = "plugins.obsidian" },
     { import = "plugins.lightline" },
     { import = "plugins.symbol-usage" },
+    { import = "plugins.bufjump" },
     -- { import = "plugins.lsp-saga" },
     -- { import = "plugins.noice" },
     -- { import = "plugins.mini-map" },

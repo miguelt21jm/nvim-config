@@ -1,3 +1,4 @@
+-- Auto pair brackets, quotes, etc. in Neovim using nvim-autopairs plugin
 return {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
