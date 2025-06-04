@@ -31,6 +31,7 @@ require("lazy").setup({
     { import = "plugins.tiny-code-actions" },
     { import = "plugins.obsidian" },
     { import = "plugins.lightline" },
+    { import = "plugins.symbol-usage" },
     -- { import = "plugins.lsp-saga" },
     -- { import = "plugins.noice" },
     -- { import = "plugins.mini-map" },
