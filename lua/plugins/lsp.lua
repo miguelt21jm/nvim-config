@@ -122,7 +122,11 @@ return {
 			},
 			root_dir = lspconfig.util.root_pattern("*.sln", ".git"),
 			settings = {
+				FormattingOptions = {
+					EnableEditorConfigSupport = true,
+				},
 				RoslynExtensionsOptions = {
+					EnableAnalyzersSupport = true,
 					InlayHintsOptions = {
 						EnableForParameters = true,
 						ForLiteralParameters = true,
