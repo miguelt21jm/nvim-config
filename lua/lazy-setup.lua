@@ -29,7 +29,7 @@ require("lazy").setup({
     { import = "plugins.inlay-hints" },
     { import = "plugins.trouble" },
     { import = "plugins.tiny-code-actions" },
-    { import = "plugins.obsidian" },
+    -- { import = "plugins.obsidian" },
     { import = "plugins.lightline" },
     { import = "plugins.symbol-usage" },
     { import = "plugins.bufjump" },
