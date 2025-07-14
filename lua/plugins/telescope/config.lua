@@ -154,15 +154,15 @@ function M.setup()
 		})
 	end, { desc = " Pretty Find Files" })
 
-	vim.keymap.set("n", "<leader>fg", function()
-		themes.prettyGrepPicker({
-			picker = "live_grep",
-			options = {
-				cwd = vim.loop.cwd(),
-				-- any other live_grep options…
-			},
-		})
-	end, { desc = " Pretty Live Grep" })
+vim.keymap.set("n", "<leader>fg", function()
+  themes.prettyGrepPicker({
+    picker = "live_grep",
+    options = {
+      -- only search this one file
+      search_dirs = { vim.fn.expand("%:p") },
+    },
+  })
+end, { desc = " Pretty Live Grep (current file)" })
 	--
 	vim.lsp.handlers["textDocument/references"] = function(err, result, ctx, config)
 		telescope.builtin.lsp_references({ bufnr = ctx.bufnr })

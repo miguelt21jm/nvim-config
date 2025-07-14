@@ -13,7 +13,6 @@ return {
 			keymap("n", "<leader>rn", vim.lsp.buf.rename, opts)
 		end
 
-
 		lspconfig.rust_analyzer.setup({
 			on_attach = on_attach,
 			settings = {

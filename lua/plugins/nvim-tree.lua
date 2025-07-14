@@ -16,9 +16,12 @@ return {
                     quit_on_open = true,
                 },
             },
+            hijack_directories = {
+                enable = false,
+            },
             update_focused_file = {
                 enable = true,
-                update_cwd = true,
+                update_cwd = false,
             },
             on_attach = function(bufnr)
                 local api = require("nvim-tree.api")

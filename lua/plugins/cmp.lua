@@ -7,10 +7,12 @@ return {
     "hrsh7th/cmp-path",      -- Path completions
     "L3MON4D3/LuaSnip",      -- Snippet engine
     "saadparwaiz1/cmp_luasnip", -- Snippet completions for LuaSnip
+     "onsails/lspkind.nvim", 
   },
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+    local lspkind = require("lspkind")
 
     cmp.setup({
       snippet = {
@@ -31,7 +33,18 @@ return {
       }, {
         { name = "buffer" },
         { name = "path" },
-      })
+      }),
+      formatting = {
+        fields = { "abbr", "kind", "menu" },
+        format = lspkind.cmp_format({
+          mode = "symbol_text",
+          maxwidth = 50,
+          ellipsis_char = "...",
+        }),
+      },
+      experimental = {
+        ghost_text = true,
+      },
     })
 
     -- Optional: Update LSP capabilities for better integration with nvim-cmp.
