@@ -44,7 +44,6 @@ return {
 
 		lspconfig.rust_analyzer.setup({
 			on_attach = on_attach,
-			bundle_path = "~/AppData/Local/nvim-data/mason/packages/rust-analyzer",
 			settings = {
 				["rust-analyzer"] = {
 					inlayHints = {
