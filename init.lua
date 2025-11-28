@@ -16,7 +16,7 @@ local function setup_vscode_mappings()
 		vim.fn.VSCodeNotify("workbench.action.gotoSymbol")
 	end, opts)
 
-	vim.keymap.set("n", "<leader>ws", function()
+	vim.keymap.set("n", "<leader>fw", function()
 		vim.fn.VSCodeNotify("workbench.action.showAllSymbols")
 	end, opts)
 
@@ -29,7 +29,11 @@ local function setup_vscode_mappings()
 	end, opts)
 
 	vim.keymap.set("n", "<leader>rn", function()
-		vim.fn.VSCodeNotify("editor.action.rename")
+		eim.fn.VSCodeNotify("editor.action.rename")
+	end, opts)
+
+	vim.keymap.set("n", "gi", function()
+		vim.fn.VSCodeNotify("editor.action.goToImplementation")
 	end, opts)
 
 	vim.keymap.set("n", "gr", function()
@@ -40,6 +44,11 @@ end
 ---------------------------------------------------------------------------------------INIT
 require("keymaps")
 if vim.g.vscode then
+	local opts = { desc = "Move by display line", silent = true, remap = true }
+	vim.keymap.set({ "n", "v" }, "j", "gj", opts)
+	vim.keymap.set({ "n", "v" }, "k", "gk", opts)
+	vim.keymap.set({ "n", "v" }, "$", "g$", opts)
+	vim.keymap.set({ "n", "v" }, "0", "g0", opts)
 	setup_vscode_mappings()
 else
 	require("editor")
