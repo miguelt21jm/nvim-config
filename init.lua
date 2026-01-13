@@ -13,7 +13,15 @@ local function setup_vscode_mappings()
 	end, opts)
 
 	vim.keymap.set("n", "<leader>fs", function()
-		vim.fn.VSCodeNotify("workbench.action.gotoSymbol")
+		vim.fn.VSCodeNotify("workbench.action.quickOpen", "@:")
+	end, opts)
+
+	vim.keymap.set("n", "<leader>fS", function()
+		vim.fn.VSCodeNotify("workbench.action.quickOpen", "#")
+	end, opts)
+
+	vim.keymap.set("n", "<leader>fw", function()
+		vim.fn.VSCodeNotify("workbench.action.quickOpen", "%")
 	end, opts)
 
 	vim.keymap.set("n", "<leader>ws", function()
