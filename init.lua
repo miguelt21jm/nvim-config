@@ -24,10 +24,6 @@ local function setup_vscode_mappings()
 		vim.fn.VSCodeNotify("workbench.action.quickOpen", "%")
 	end, opts)
 
-	vim.keymap.set("n", "<leader>fw", function()
-		vim.fn.VSCodeNotify("workbench.action.showAllSymbols")
-	end, opts)
-
 	vim.keymap.set("n", "<leader>cf", function()
 		vim.fn.VSCodeNotify("editor.action.formatDocument")
 	end, opts)
